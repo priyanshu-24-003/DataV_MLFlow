@@ -22,7 +22,7 @@ DataV_MLFlow is a repository is aimed to perform data Versioning using MLFlow on
 
 ## plumber
 
-        - plumber handles pipeline as all the other plumbers do :) . 
+- plumber handles pipeline as all the other plumbers do :) . 
 
 ## Notes
 
