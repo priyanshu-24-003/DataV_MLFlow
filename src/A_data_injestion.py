@@ -4,7 +4,10 @@ from matplotlib import pyplot as plt
 import logging
 import os
 from sklearn.model_selection import train_test_split
+import mlflow
 
+#setting mlflow tracking server
+mlflow.set_tracking_uri("http://127.0.0.1:5000")
 
 # creating a log file for later debbuging.
 
@@ -27,6 +30,11 @@ file_handler.setFormatter(formatter)
 
 logger.addHandler(console_handler)
 logger.addHandler(file_handler)
+
+
+with open('data/logs/data_ingestion.log') as f:
+    lines = f.readlines()
+    init_log_length = len(lines)
 
 
 #data loader
@@ -74,6 +82,7 @@ def save_data(train_data: pd.DataFrame, test_data: pd.DataFrame, data_path: str)
         train_data.to_csv(os.path.join(raw_data_path, "train.csv"), index=False)
         test_data.to_csv(os.path.join(raw_data_path, "test.csv"), index=False)
         logger.debug('Train and test data saved to %s', raw_data_path)
+        logger.debug('\n')
     except Exception as e:
         logger.error('Unexpected error occurred while saving the data: %s', e)
         raise
@@ -82,9 +91,15 @@ def main():
     df = load_data('data/src/palmer_penguins.csv')
     df = basic_processing(df)
 
-    XY, xy = train_test_spliter(df, 0.3, 42)
+    XY, xy = train_test_spliter(df, 0.2, 42)
 
     save_data(XY, xy, './data/raw')
+
+    with open("data/logs/data_ingestion.log") as f2:
+        liness = f2.readlines()
+        
+        with open('data/current_exp.log', 'a') as f3:
+            f3.writelines(liness[init_log_length:])
 
 
 if __name__ == '__main__':

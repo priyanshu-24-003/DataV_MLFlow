@@ -6,6 +6,10 @@ import logging
 import yaml
 from sklearn import svm
 from sklearn.model_selection import cross_val_score
+import mlflow
+
+#setting mlflow tracking server
+mlflow.set_tracking_uri("http://127.0.0.1:5000")
 
 
 
@@ -32,6 +36,10 @@ file_handler.setFormatter(formatter)
 logger.addHandler(console_handler)
 logger.addHandler(file_handler)
 
+
+with open('data/logs/D_Model_Training.log') as f:
+    lines = f.readlines()
+    init_log_length = len(lines)
 
 
 
@@ -116,6 +124,8 @@ def save_model(model, file_path: str) -> None:
         with open(file_path, 'wb') as file:
             pickle.dump(model, file)
         logger.debug('Model saved to %s', file_path)
+        logger.debug('\n')
+
     except FileNotFoundError as e:
         logger.error('File path not found: %s', e)
         raise
@@ -141,6 +151,13 @@ def main():
         logger.error('Failed to complete the model building process: %s', e)
         print(f"Error: {e}")
 
+    with open("data/logs/D_Model_Training.log") as f2:
+        liness = f2.readlines()
+        
+        with open('data/current_exp.log', 'a') as f3:
+            f3.writelines(liness[init_log_length:])
+
+  
 
 if __name__ == '__main__':
     main()

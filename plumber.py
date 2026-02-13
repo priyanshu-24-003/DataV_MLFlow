@@ -5,6 +5,7 @@ plumber handles pipeline
 
 import logging
 import os
+import mlflow 
 
 #importing different components
 import src.A_data_injestion as A
@@ -14,6 +15,10 @@ import src.D_model_training as D
 import src.E_model_evaluation as E
 
 
+
+
+#setting mlflow tracking server
+mlflow.set_tracking_uri("http://127.0.0.1:5000")
 
 # Ensure the "logs" directory exists
 log_dir = 'data/logs'
@@ -40,26 +45,41 @@ logger.addHandler(file_handler)
 
 def pipeline():
     
-    print("Running Data_Injestion Component ")
-    A.main()
-    print()
+    # Mention your experiment below
+    mlflow.set_experiment('BasicTester')
 
-    print("Running Data_Preparation Component B")
-    B.main()
-    print()
+    with mlflow.start_run() as runs:
+    # with mlflow.start_run(experiment_id=1)as runs:
 
-    print("Running Feature_Selection Component C")
-    C.main()
-    print()
+        print("Running Data_Injestion Component ")
+        A.main()
+        print()
 
-    print("Running Model_Training Component D")
-    D.main()
-    print()
+        print("Running Data_Preparation Component B")
+        B.main()
+        print()
 
-    print("Running Model_Evaluation Component E")
-    E.main()
-    print()
+        print("Running Feature_Selection Component C")
+        C.main()
+        print()
 
+        print("Running Model_Training Component D")
+        D.main()
+        print()
+
+        print("Running Model_Evaluation Component E")
+        E.main()
+        print()
+
+        #Saving the entire data of this run/ sub-experiment
+        mlflow.log_artifact('./data')
+
+        #Saving the Entire source code realated to this run/ sub-experiment
+        mlflow.log_artifact('./src')
+
+        mlflow.log_artifact('data/current_exp.log')
+        with open('data/current_exp.log', 'w') as f3:
+            pass
 
 
 if __name__ == "__main__":

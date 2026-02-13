@@ -6,6 +6,11 @@ import pickle
 import json
 from sklearn.metrics import accuracy_score, classification_report
 import logging
+import mlflow
+
+#setting mlflow tracking server
+mlflow.set_tracking_uri("http://127.0.0.1:5000")
+
 
 # Ensure the "logs" directory exists
 log_dir = 'data/logs'
@@ -29,6 +34,11 @@ file_handler.setFormatter(formatter)
 
 logger.addHandler(console_handler)
 logger.addHandler(file_handler)
+
+
+with open('data/logs/E_model_evaluation.log') as f:
+    lines = f.readlines()
+    init_log_length = len(lines)
 
 
 def load_model(file_path: str):
@@ -86,6 +96,8 @@ def save_metrics(metrics: dict, file_path: str) -> None:
         with open(file_path, 'w') as file:
             json.dump(metrics, file, indent=4)
         logger.debug('Metrics saved to %s', file_path)
+        logger.debug('\n')
+
     except Exception as e:
         logger.error('Error occurred while saving the metrics: %s', e)
         raise
@@ -106,6 +118,14 @@ def main():
     except Exception as e:
         logger.error('Failed to complete the model evaluation process: %s', e)
         print(f"Error: {e}")
+
+    with open("data/logs/E_model_evaluation.log") as f2:
+        liness = f2.readlines()
+        
+        with open('data/current_exp.log', 'a') as f3:
+            f3.writelines(liness[init_log_length:])
+
+
 
 if __name__ == '__main__':
     main()

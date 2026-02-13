@@ -5,3 +5,8 @@ agenda.py
 /data/models
 /data/processed
 /data/reports
+/data/current_exp.log
+/mlartifacts
+amazing_tasks_achieved.txt
+src/__pycache__
+

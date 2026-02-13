@@ -5,6 +5,10 @@ import os
 import logging
 import yaml
 import numpy as np
+import mlflow
+
+#setting mlflow tracking server
+mlflow.set_tracking_uri("http://127.0.0.1:5000")
 
 
 # Ensure the "logs" directory exists
@@ -28,6 +32,11 @@ file_handler.setFormatter(formatter)
 
 logger.addHandler(console_handler)
 logger.addHandler(file_handler)
+
+
+with open('data/logs/C_Feature_selection.log') as f:
+    lines = f.readlines()
+    init_log_length = len(lines)
 
 
 def load_data(file_path: str) -> pd.DataFrame:
@@ -105,6 +114,8 @@ def save_data(df: pd.DataFrame, file_path: str) -> None:
         os.makedirs(os.path.dirname(file_path), exist_ok=True)
         df.to_csv(file_path, index=False)
         logger.debug('Data saved to %s', file_path)
+        logger.debug('\n')
+
     except Exception as e:
         logger.error('Unexpected error occurred while saving the data: %s', e)
         raise
@@ -126,10 +137,18 @@ def main():
 
         save_data(train_df, os.path.join("./data", "processed", "train_final.csv"))
         save_data(test_df, os.path.join("./data", "processed", "test_final.csv"))
+
     except Exception as e:
         logger.error('Failed to complete the feature engineering process: %s', e)
         print(f"Error: {e}")
+ 
+    with open("data/logs/C_Feature_selection.log") as f2:
+        liness = f2.readlines()
+        
+        with open('data/current_exp.log', 'a') as f3:
+            f3.writelines(liness[init_log_length:])
 
+ 
 
 if __name__ == '__main__':
     main()

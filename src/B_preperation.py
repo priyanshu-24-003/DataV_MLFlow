@@ -2,6 +2,11 @@ from sklearn import preprocessing
 import os
 import logging
 import pandas as pd
+import mlflow
+
+#setting mlflow tracking server
+mlflow.set_tracking_uri("http://127.0.0.1:5000")
+
 
 # creating a log file for later debbuging.
 log_dir = 'data/logs'
@@ -26,6 +31,9 @@ file_handler.setFormatter(formatter)
 logger.addHandler(console_handler)
 logger.addHandler(file_handler)
 
+with open('data/logs/B_preparation.log') as f:
+    lines = f.readlines()
+    init_log_length = len(lines)
 
 
 
@@ -97,6 +105,7 @@ def main(text_column='text', target_column='target'):
         test_processed_data.to_csv(os.path.join(data_path, "test_processed.csv"), index=False)
         
         logger.debug('Processed data saved to %s', data_path)
+        logger.debug('\n')
     except FileNotFoundError as e:
         logger.error('File not found: %s', e)
     except pd.errors.EmptyDataError as e:
@@ -104,6 +113,13 @@ def main(text_column='text', target_column='target'):
     except Exception as e:
         logger.error('Failed to complete the data transformation process: %s', e)
         print(f"Error: {e}")
+
+    with open("data/logs/B_preparation.log") as f2:
+        liness = f2.readlines()
+        
+        with open('data/current_exp.log', 'a') as f3:
+            f3.writelines(liness[init_log_length:])
+
 
 if __name__ == '__main__':
     main()
