@@ -111,6 +111,11 @@ def main():
         y_test = test_data.iloc[:, -1].values
                 
         metrics = evaluate_model(clf, X_test, y_test)
+
+        ## logging metrics
+        mlflow.log_metric('accuracy',metrics['accuracy'])
+        ## logging metrics
+
         
         save_metrics(metrics, './data/reports/metrics.json')
 
@@ -124,6 +129,7 @@ def main():
         
         with open('data/current_exp.log', 'a') as f3:
             f3.writelines(liness[init_log_length:])
+
 
 
 

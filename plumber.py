@@ -46,10 +46,10 @@ logger.addHandler(file_handler)
 def pipeline():
     
     # Mention your experiment below
-    mlflow.set_experiment('BasicTester')
+    # mlflow.set_experiment('BasicTester')
 
-    with mlflow.start_run() as runs:
-    # with mlflow.start_run(experiment_id=1)as runs:
+    # with mlflow.start_run() as runs:
+    with mlflow.start_run(experiment_id=1)as runs:
 
         print("Running Data_Injestion Component ")
         A.main()

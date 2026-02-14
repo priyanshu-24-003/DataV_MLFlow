@@ -8,6 +8,7 @@ from sklearn import svm
 from sklearn.model_selection import cross_val_score
 import mlflow
 
+
 #setting mlflow tracking server
 mlflow.set_tracking_uri("http://127.0.0.1:5000")
 
@@ -144,6 +145,11 @@ def main():
 
         clf = train_model(X_train, y_train,)
         
+        #loggin the model in MLFlow
+        mlflow.sklearn.log_model(clf, 'SupportVectorClassifier')
+        #loggin the model in MLFlow
+
+
         model_save_path = 'data/models/model.pkl'
         save_model(clf, model_save_path)
 
