@@ -72,7 +72,7 @@ def pipeline():
         E.main()
         print()
 
-        #Saving the entire data of this run/ sub-experiment
+        # Saving the entire data of this run/ sub-experiment
         mlflow.log_artifact('./data')
         logger.debug('logged artifacts')
 
@@ -85,7 +85,6 @@ def pipeline():
         mlflow.log_artifact('data/current_exp.log')
         with open('data/current_exp.log', 'w') as f3:
             pass
-
 
 if __name__ == "__main__":
 
