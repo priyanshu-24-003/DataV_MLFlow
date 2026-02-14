@@ -96,7 +96,12 @@ def main():
     df = load_data('data/src/palmer_penguins.csv')
     df = basic_processing(df)
 
-    XY, xy = train_test_spliter(df, 0.1, 42)
+    test_siz = 0.3
+
+    XY, xy = train_test_spliter(df, test_siz, 42)
+    
+    #logging param test_size
+    mlflow.log_param('test_size', test_siz)
 
     save_data(XY, xy, './data/raw')
 

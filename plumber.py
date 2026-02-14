@@ -47,10 +47,10 @@ logger.addHandler(file_handler)
 def pipeline():
     
     # Mention your experiment below
-    # mlflow.set_experiment('BasicTester')
+    mlflow.set_experiment('Support_Vector_Experiment')
 
-    # with mlflow.start_run() as runs:
-    with mlflow.start_run(experiment_id=1)as runs:
+    with mlflow.start_run() as runs:
+    # with mlflow.start_run(experiment_id=1)as runs:
 
         print("Running Data_Injestion Component ")
         A.main()
@@ -74,12 +74,13 @@ def pipeline():
 
         #Saving the entire data of this run/ sub-experiment
         mlflow.log_artifact('./data')
+        logger.debug('logged artifacts')
 
         #Saving the Entire source code realated to this run/ sub-experiment
         mlflow.log_artifact('./src')
+        logger.debug('logged source code')
+        logger.debug('\n')
 
-        #logging tags
-        mlflow.set_tag({'User':"priyanshu"})
 
         mlflow.log_artifact('data/current_exp.log')
         with open('data/current_exp.log', 'w') as f3:
