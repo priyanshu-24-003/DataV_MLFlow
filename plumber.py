@@ -15,10 +15,11 @@ import src.D_model_training as D
 import src.E_model_evaluation as E
 
 
+import dagshub
+dagshub.init(repo_owner='priyanshu24003', repo_name='DataV_MLFlow', mlflow=True)
 
+mlflow.set_tracking_uri("https://dagshub.com/priyanshu24003/DataV_MLFlow.mlflow")
 
-#setting mlflow tracking server
-mlflow.set_tracking_uri("http://127.0.0.1:5000")
 
 # Ensure the "logs" directory exists
 log_dir = 'data/logs'
@@ -76,6 +77,9 @@ def pipeline():
 
         #Saving the Entire source code realated to this run/ sub-experiment
         mlflow.log_artifact('./src')
+
+        #logging tags
+        mlflow.set_tag({'User':"priyanshu"})
 
         mlflow.log_artifact('data/current_exp.log')
         with open('data/current_exp.log', 'w') as f3:

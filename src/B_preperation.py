@@ -4,8 +4,12 @@ import logging
 import pandas as pd
 import mlflow
 
-#setting mlflow tracking server
-mlflow.set_tracking_uri("http://127.0.0.1:5000")
+
+import dagshub
+dagshub.init(repo_owner='priyanshu24003', repo_name='DataV_MLFlow', mlflow=True)
+
+mlflow.set_tracking_uri("https://dagshub.com/priyanshu24003/DataV_MLFlow.mlflow")
+
 
 
 # creating a log file for later debbuging.

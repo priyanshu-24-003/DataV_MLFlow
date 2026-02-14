@@ -6,8 +6,13 @@ import os
 from sklearn.model_selection import train_test_split
 import mlflow
 
-#setting mlflow tracking server
-mlflow.set_tracking_uri("http://127.0.0.1:5000")
+
+import dagshub
+dagshub.init(repo_owner='priyanshu24003', repo_name='DataV_MLFlow', mlflow=True)
+
+mlflow.set_tracking_uri("https://dagshub.com/priyanshu24003/DataV_MLFlow.mlflow")
+
+
 
 # creating a log file for later debbuging.
 
@@ -91,7 +96,7 @@ def main():
     df = load_data('data/src/palmer_penguins.csv')
     df = basic_processing(df)
 
-    XY, xy = train_test_spliter(df, 0.4, 42)
+    XY, xy = train_test_spliter(df, 0.1, 42)
 
     save_data(XY, xy, './data/raw')
 
