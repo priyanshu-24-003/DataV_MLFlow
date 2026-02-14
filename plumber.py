@@ -77,6 +77,9 @@ def pipeline():
         #Saving the Entire source code realated to this run/ sub-experiment
         mlflow.log_artifact('./src')
 
+        #setting a tag 
+        mlflow.set_tags({'ran-by':"rohan", 'test_size':"0.1"})
+
         mlflow.log_artifact('data/current_exp.log')
         with open('data/current_exp.log', 'w') as f3:
             pass
