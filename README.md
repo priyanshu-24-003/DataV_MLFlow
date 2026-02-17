@@ -44,7 +44,7 @@ DataV_MLFlow is a repository is aimed to perform data Versioning using MLFlow on
 
 
 ## miscllaneous tasks achieved:
-
+        
         1. ran the whole pipeline using mlflow :
                 using modular/functional programming and directly using 
 
@@ -70,7 +70,10 @@ DataV_MLFlow is a repository is aimed to perform data Versioning using MLFlow on
                 2. remote tracking server
 
                         -created seperate branch DagsHub(Now Default    ) for remote work
-                        
+                       
+                        -Experiment tracking :
+                                again I used DagsHub here
+                       
                         -pushed repo to dagshub and id experiment tracking usually as we learned
 
         5. Ran nested runs :
