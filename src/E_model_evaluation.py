@@ -88,6 +88,7 @@ def evaluate_model(clf, X_test: np.ndarray, y_test: np.ndarray) -> dict:
         logger.debug('Model evaluation metrics calculated')
         return metrics_dict
     except Exception as e:
+        print('yaha error hai ?')
         logger.error('Error during model evaluation: %s', e)
         raise
 
@@ -120,7 +121,34 @@ def main():
         mlflow.log_metric('accuracy',metrics['accuracy'])
         ## logging metrics
 
-        
+        try:
+            logger.debug('nested logging started')
+            ## logging accuracies of basic models for comparisions
+            folder = "./data/models/basic_M"   # ← change this
+
+            file_paths = [
+                os.path.join(folder, filename)
+                for filename in os.listdir(folder)
+                if os.path.isfile(os.path.join(folder, filename))
+            ]
+
+            for i,ms in enumerate(file_paths):
+                sub_model = load_model(ms)
+                metricsss = evaluate_model(sub_model, X_test,y_test)
+                mlflow.log_metric(f'accuracy {ms[-6:-4]}', metricsss['accuracy'])
+
+                #logging inside child runs
+                with mlflow.start_run(nested=True) as child:
+                    
+                    mlflow.sklearn.log_model(sub_model, name=ms[-6:-4])
+                    mlflow.log_metric('accuracy', metricsss['accuracy'])
+                    mlflow.set_tag('model_name',f'{ms[-6:-4]}')
+
+                logger.debug('nested logging Finished')
+
+        except Exception as e:
+            logger.error('Error while doing nested logging for LR, RF comparision')
+
         save_metrics(metrics, './data/reports/metrics.json')
 
         logger.debug('report generated successfully')

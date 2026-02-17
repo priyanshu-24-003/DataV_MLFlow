@@ -57,11 +57,10 @@ def basic_model_training(X_train, Y_train):
         logger.debug('training random forest and logistic regression for comparision')
         
         for key in basic_Models.keys():
-            with mlflow.start_run(nested=True) as child:
-                basic_Models[key].fit(X_train, Y_train)
-                model_save_path = f'data/models/basic_M/{key}.pkl'
-                save_model(basic_Models[key], model_save_path)
-                mlflow.sklearn.log_model(basic_Models[key], name=key)
+        
+            basic_Models[key].fit(X_train, Y_train)
+            model_save_path = f'data/models/basic_M/{key}.pkl'
+            save_model(basic_Models[key], model_save_path)
 
         logger.debug('Basic model Training has been compleated')
         
