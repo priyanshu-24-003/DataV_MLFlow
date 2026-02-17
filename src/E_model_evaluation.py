@@ -68,6 +68,9 @@ def load_data(file_path: str) -> pd.DataFrame:
         logger.error('Unexpected error occurred while loading the data: %s', e)
         raise
 
+
+
+
 def evaluate_model(clf, X_test: np.ndarray, y_test: np.ndarray) -> dict:
     """Evaluate the model and return the evaluation metrics."""
     try:
@@ -75,6 +78,7 @@ def evaluate_model(clf, X_test: np.ndarray, y_test: np.ndarray) -> dict:
         # y_pred_proba = clf.predict_proba(X_test)[:, 1]
 
         accuracy = accuracy_score(y_test, y_pred)
+        
         report = classification_report(y_test, y_pred, output_dict=True)
 
         metrics_dict = {

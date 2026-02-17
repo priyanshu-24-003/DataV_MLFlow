@@ -7,6 +7,8 @@ import yaml
 from sklearn import svm
 from sklearn.model_selection import cross_val_score
 import mlflow
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.linear_model import LogisticRegression
 
 
 #setting mlflow tracking server
@@ -42,7 +44,33 @@ with open('data/logs/D_Model_Training.log') as f:
     lines = f.readlines()
     init_log_length = len(lines)
 
+def basic_model_training(X_train, Y_train):
+    """
+    Docstring for basic_model_training
+    
+    :param X_train: Description
+    :param Y_train: Description
+    """
+    basic_Models = {"RF":RandomForestClassifier(), "LR":LogisticRegression()}
 
+    try:
+        logger.debug('training random forest and logistic regression for comparision')
+        
+        for key in basic_Models.keys():
+            with mlflow.start_run(nested=True) as child:
+                basic_Models[key].fit(X_train, Y_train)
+                model_save_path = f'data/models/basic_M/{key}.pkl'
+                save_model(basic_Models[key], model_save_path)
+                mlflow.sklearn.log_model(basic_Models[key], name=key)
+
+        logger.debug('Basic model Training has been compleated')
+        
+    except Exception as e:
+        logger.error('error while training basic models')
+        raise
+        
+    return basic_Models
+    
 
 def load_data(file_path: str) -> pd.DataFrame:
     """
@@ -97,6 +125,8 @@ def train_model(X_train: np.ndarray, y_train: np.ndarray,) -> svm.SVC:
 
         SVM.fit(X_train, y_train)
         
+        basic_model_training(X_train, y_train)
+
         logger.debug(f'model has been trained with score on training data :{SVM.score(X_train, y_train)} ')
 
         return SVM
@@ -108,7 +138,6 @@ def train_model(X_train: np.ndarray, y_train: np.ndarray,) -> svm.SVC:
     except Exception as e:
         logger.error('Error during model training: %s', e)
         raise
-
 
 
 def save_model(model, file_path: str) -> None:

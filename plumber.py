@@ -15,8 +15,6 @@ import src.D_model_training as D
 import src.E_model_evaluation as E
 
 
-
-
 #setting mlflow tracking server
 mlflow.set_tracking_uri("http://127.0.0.1:5000")
 
@@ -46,10 +44,9 @@ logger.addHandler(file_handler)
 def pipeline():
     
     # Mention your experiment below
-    # mlflow.set_experiment('BasicTester')
+    mlflow.set_experiment('BasicTester')
 
-    # with mlflow.start_run() as runs:
-    with mlflow.start_run(experiment_id=1)as runs:
+    with mlflow.start_run() as runs:
 
         print("Running Data_Injestion Component ")
         A.main()
@@ -72,7 +69,10 @@ def pipeline():
         print()
 
         #Saving the entire data of this run/ sub-experiment
-        mlflow.log_artifact('./data')
+        mlflow.log_artifact('./data/processed')
+        mlflow.log_artifact('./data/models')
+        mlflow.log_artifact('./data/reports')        
+
 
         #Saving the Entire source code realated to this run/ sub-experiment
         mlflow.log_artifact('./src')
@@ -83,8 +83,8 @@ def pipeline():
         mlflow.log_artifact('data/current_exp.log')
         with open('data/current_exp.log', 'w') as f3:
             pass
-
-
+        
+       
 if __name__ == "__main__":
 
     pipeline()
