@@ -73,7 +73,9 @@ def pipeline():
         print()
 
         # Saving the entire data of this run/ sub-experiment
-        mlflow.log_artifact('./data')
+        mlflow.log_artifact('./data/processed')
+        mlflow.log_artifact('./data/models')
+        mlflow.log_artifact('./data/reports')
         logger.debug('logged artifacts')
 
         #Saving the Entire source code realated to this run/ sub-experiment

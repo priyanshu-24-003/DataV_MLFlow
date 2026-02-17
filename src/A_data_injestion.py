@@ -96,7 +96,7 @@ def main():
     df = load_data('data/src/palmer_penguins.csv')
     df = basic_processing(df)
 
-    test_siz = 0.3
+    test_siz = 0.2
 
     XY, xy = train_test_spliter(df, test_siz, 42)
     
