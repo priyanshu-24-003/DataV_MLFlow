@@ -118,6 +118,9 @@ def main():
         mlflow.log_metric('accuracy',metrics['accuracy'])
         ## logging metrics
 
+        ##logging comaparion , child models we had saved earliear 
+        # for key in basic_Models.keys():
+        #     with mlflow.start_run(nested=True) as child:
         
         save_metrics(metrics, './data/reports/metrics.json')
 
