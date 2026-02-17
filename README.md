@@ -73,4 +73,14 @@ DataV_MLFlow is a repository is aimed to perform data Versioning using MLFlow on
                         
                         -pushed repo to dagshub and id experiment tracking usually as we learned
 
+        5. Ran nested runs :
 
+                        trained basic models for later comparision
+                        
+                        logged metrics of respective basic models 
+
+                        compared accuracies of main model to base models
+
+
+
+                        
