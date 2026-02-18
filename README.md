@@ -73,15 +73,16 @@ DataV_MLFlow is a repository is aimed to perform data Versioning using MLFlow on
                                 data/processed 
                                 etc
                                 to dagshub s3://
-                                dagshub upload --bucket priyanshu24003/DataV_MLFlow ./data  data/
+                                dagshub upload --bucket priyanshu24003/DataV_MLFlow ./data/models/   data2/models 
 
                 2. remote tracking server
 
                         -created seperate branch DagsHub(Now Default) for remote tracking in git.
-                       
+                        - https://dagshub.com/priyanshu24003/DataV_MLFlow        
+
                         -Experiment tracking :
                                 I used DagsHub and MLflow here
-                       
+
                         -pushed repo to dagshub.
 
         5. Ran nested runs :
@@ -91,6 +92,21 @@ DataV_MLFlow is a repository is aimed to perform data Versioning using MLFlow on
                         logged metrics of respective basic models 
 
                         compared accuracies of main model to base models
+
+## Registry
+        
+        - registered the recent model using mlflow ui.
+
+## problem faced/ issues:
+
+        - pipline runs from start every time even if changes are made to later stages?
+                <-------- update comming soon ------>
+
+        - i didn't use mlflow tracking api to register model
+                <---- In Upcoming times i will ---->
+
+
+
 
 
 
